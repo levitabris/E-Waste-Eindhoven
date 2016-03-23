@@ -11,24 +11,35 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/d\/_Final_listofDeath.json": {
+	"\/d\/_nl.json": {
 		"fileType": 524288,
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/d\/_Final_listofDeath.json",
+		"inputAbbreviatedPath": "\/d\/_nl.json",
 		"orderOutput": 0,
-		"outputAbbreviatedPath": "\/d\/_Final_listofDeath-min.json",
+		"outputAbbreviatedPath": "\/d\/_nl-min.json",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1
 		},
-	"\/d\/c_death.json": {
+	"\/d\/_places.json": {
 		"fileType": 524288,
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/d\/c_death.json",
+		"inputAbbreviatedPath": "\/d\/_places.json",
 		"orderOutput": 0,
-		"outputAbbreviatedPath": "\/d\/c_death-min.json",
+		"outputAbbreviatedPath": "\/d\/_places-min.json",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1
+		},
+	"\/d\/NL.json": {
+		"fileType": 524288,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/d\/NL.json",
+		"orderOutput": 0,
+		"outputAbbreviatedPath": "\/d\/NL-min.json",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1
@@ -54,6 +65,28 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1
+		},
+	"\/img\/locBars.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 131414,
+		"inputAbbreviatedPath": "\/img\/locBars.png",
+		"outputAbbreviatedPath": "\/img\/locBars.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/locMap.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 314438,
+		"inputAbbreviatedPath": "\/img\/locMap.png",
+		"outputAbbreviatedPath": "\/img\/locMap.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
 		},
 	"\/index.html": {
 		"fileType": 8192,
@@ -137,8 +170,8 @@
 	},
 "projectAttributes": {
 	"bowerAbbreviatedPath": "",
-	"displayValue": "06 D3",
-	"displayValueWasSetByUser": 0,
+	"displayValue": "E-Works",
+	"displayValueWasSetByUser": 1,
 	"iconImageName": "meme-wonka"
 	},
 "projectSettings": {

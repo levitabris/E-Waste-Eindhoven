@@ -1,2 +1,2 @@
-# Refugee-Death-on-EU-boarder
-A geo visualization of the historical data of people dead under the boarder control in EU.
+# Living data hackathon
+Visualizing performance for E-waste collecting in a series of cities.

@@ -9,12 +9,7 @@ var w = window,
     y = w.innerHeight|| e.clientHeight|| g.clientHeight;
 // Creat zoom function 
 var scale0 = (x - 1)/2/Math.PI;
-var zoom = d3.behavior.zoom().translate([x/2,y/2]).scale(scale0).scaleExtent([scale0, 8 * scale0]).on('zoom', zoomed);
 
-function zoomed() {
-	projection.translate(zoom.translate()).scale(zoom.scale);
-	svg.selectAll('path').attr('d'.path);
-}
 
 // ceate svg canvas
 var svg = d3.select("body").style('margin','0')
@@ -23,7 +18,7 @@ var svg = d3.select("body").style('margin','0')
         	"width": x,
             "height": y
         })
-        .style('background','#161d54')
+        .style('background','#b1d8b7')
         ;
 
 // detect resize window and change size accordingly
@@ -37,23 +32,11 @@ d3.select(window)
     	});
 	});
 
-// initialize  zoom and drag interactivity
-// var zoom = d3.behavior.zoom()
-//     .scaleExtent([1, 10])
-//     .on("zoom", zoomed);
-
-// var drag = d3.behavior.drag()
-//     .origin(function(d) { return d; })
-//     .on("dragstart", dragstarted)
-//     .on("drag", dragged)
-//     .on("dragend", dragended);
-
-
 // projection and path for map drawing
 var projection = d3.geo.mercator()
 				.translate([x/2, y/2])
-				.scale(750)
-				.center([30,40])
+				.scale(11000)
+				.center([5.478594,52.04337])
 			;
                        
 var path = d3.geo.path().projection(projection)
@@ -64,105 +47,123 @@ var tooltip =d3.select('body').append('div')
 				;
 
 // draw world map
-d3.json('d/world.json', function(err, world) {
+d3.json('d/NL.json', function(err, nl) {
 	if (err) return console.error(err);
-	var worldmap = topojson.feature(world, world.objects.worldsubunit)
-	;
-	svg.selectAll('.country').data(worldmap.features).enter()
+	var netherland = topojson.feature(nl, nl.objects._nl);
+	var nl_cities = topojson.feature(nl, nl.objects._places);
+
+	svg.selectAll('.netherland').data(netherland.features).enter()
 		.append('path')
 		.attr({
-			'class': function(d) { return "country " + d.properties.NAME_LONG},
+			'class': function(d) { return "netherland " + d.properties.name},
 			'd': path,
-			'fill':'#324489'	
-		})
-		.call(zoom)	  			
+			'fill':'#608157'
+		})			
 		;
+	svg.selectAll('.city').data(nl_cities.features).enter()
+		.append('circle')
+		.attr({
+			'class': function(d) { return "city " + d.properties.name},
+			'r': '2px',
+			'fill':'#cfcfcf',
+			"transform": function(d) { return "translate(" + path.centroid(d) + ")"; }
+		})
 
+	svg.selectAll('.city-label').data(nl_cities.features).enter()
+		.append('text')
+		.text( function(d) {return d.properties.name})
+		.attr({
+			'class': function(d) {return 'city-label ' + d.properties.name},
+			"transform": function(d) { return "translate(" + projection(d.geometry.coordinates) + ")";},
+    		"dy":"1.1em"			
+		})
+    	;
 
-	//draw places
-	d3.json('d/c_death.json', function(err, d) {
-			if (err) return console.error(err);
+	var active = false;
 
-			// orgin places
-			console.log();
-	  		svg	.selectAll('.originPin').data(d).enter()
-	  			.append('circle','.originPin')
-	  			.attr({
-	  				'r': function(d) {return Math.sqrt(d.count)},
-	  				'fill': '#5471d6',
-	  				'opacity': function(d) {return (d.deathLat != "NA" && d.originLat != 'NA')? 0.5:0},
-	  				'transform': function(d) {return "translate(" + projection([d.originLng, d.originLat ]) + ")";}
-	  			})	  			
-	  			;
+    d3.csv('d/phonesCity.csv', function(err,d) {
+		if (err) return console.error(err);
+		console.log(d);
+		svg.selectAll('.stop').data(d).enter()
+			.append('circle')
+			.attr({
+				'class': function(d) {return 'stop ' + d.Places},
+				'r': function(d) { return (d.Places == 'Eindhoven')? '6px':'5px'},
+				'fill':function(d) { return (d.Places == 'Eindhoven')? '#2ed0de':'#FFF'},
+				"transform": function(d) { return "translate(" + projection([d.lng,d.lat]) + ")";}
+			})
+			.on("click", function(d){
+				if (d.Places == 'Eindhoven') {
+					var newWidth = 0;
+					active = active? false : true ;
+		  			newWidth = active? '20%' : '0%';
+					d3.select("#sideBar").style('width',newWidth);
+				}
+			})
+			.transition()
+			.duration(1200)
+			;
 
-	  		//get travel path
-			travelPath = [];
-	        for(var i=0, len=d.length-1; i<len; i++){
-	            // (note: loop until length - 1 since we're getting the next
-	            //  item with i+1)
-	            travelPath.push({
-	                type: "LineString",
-	                coordinates: [
-						[d[i].originLng, d[i].originLat],
-	  					[d[i].deathLng, d[i].deathLat]
-	                ]
-	            });
-	        };
-	  		//console.log(travelPath[4]);
+		svg.selectAll('.stop-label').data(d).enter()
+			.append('text')
+			.text( function(d) {return d.Places})
+			.attr({
+				'class': function(d) {return 'stop-label ' + d.Places},
+				"transform": function(d) { return "translate(" + projection([d.lng,d.lat]) + ")";},
+	    		"dy":"1.4em"
+			})
+			.attr( 'dx', function(d) {return (d.Places == 'Oost-Nieuw-west')? '-1em':'0'} )
+			;
 
+		svg.selectAll('.performanceBar').data(d).enter()
+			.append('rect')
+			.attr({ 
+				'class':'performanceBar',
+				'width':'20px',
+				'y': function (d) {return -10- d.Phones/10},
+				'height' : function(d){return d.Phones/10},
+				'x': '-11px',
+				'fill': 'white',
+				'opacity': '.7',
+				"transform": function(d) { return "translate(" + projection([d.lng,d.lat]) + ")";},
 
-			// Standard enter / update 
-	        var pathArcs = svg.selectAll(".arc")
-	            .data(travelPath);
-
-	        //enter
-	        pathArcs.enter()
-	            .append("path").attr({
-	                'class': 'arc'
-	            }).style({ 
-	                fill: 'none',
-	            });
-
-	        //update
-	        pathArcs.attr({
-	                //d is the points attribute for this path, we'll draw an arc between the points using the arc function
-	                d: path
-	            })
-	            .style({
-	                'stroke': '#697dca',
-	                'stroke-width': '0.5px',
-	                'opacity': '0.2'
-	            })
-	            ;
-
-	        // exit
-	        pathArcs.exit().remove();
-
-	        // death places
-	  		svg	.selectAll('.deathPin').data(d).enter()
-	  			.append('circle','.originPin')
-	  			.attr({
-	  				'r': function(d) {return Math.sqrt(d.count)},
-	  				'fill': '#972b38',
-	  				'stroke': '#FFF',
-	  				'stroke-width': '0.3',
-	  				'opacity': function(d) {return (d.deathLat != "NA" && d.originLat != 'NA')? 0.7:0;},	
-	  				'transform': function(d) {return 'translate(' + projection([d.deathLng,d.deathLat]) + ')'} 
-	  			})
-	  			// get mouse hover svg node and add tooltip
-	  			.on('mousemove', function(d) {
+			})
+			.on('mousemove', function(d) {
 		            var mouse = d3.mouse(svg.node()).map(function(d) {
 		                return parseInt(d);
 		            });
 		            tooltip.classed('hidden', false)
-		                .attr('style', 'left:' + (mouse[0] + 15) +
-		                        'px; top:' + (mouse[1] - 35) + 'px')
-		                .html('<span style="font-weight: bold"> ' + d.date + '</span>' + '<br>' + d.count + ' people ' + d['cause of death']);
-		        })
-		        .on('mouseout', function() {
+		                .attr('style', 'left:' + (mouse[0] + 15) +'px; top:' + (mouse[1] - 35) + 'px')
+		                .html('<h4>@'+ d.Places + '</h4> <br> This city has <span style="font-weight: bold">  ' + d.Phones + '</span> phones recycled.' + d.CO2ByGram + ' grams of carbon emmission is reduced by people in the city.');
+		     })
+		    .on('mouseout', function() {
 		            tooltip.classed('hidden', true);
-		        })
-	  			;
+		     })
 
 	});
+
 });
+
+
+
+// d3.csv('d/cityLocs.csv', function(d){
+// 	console.log(d);
+// 	d3.select('#locations').append('svg').append('g').attr('class','locBars' ).selectAll('.locPerformance').data(d).enter()
+// 		.append('rect')
+// 		.attr({
+// 			'class':'locPerformance',
+// 			'x': '0',
+// 			'y':  function(d,i) { return i*12 },
+// 			'width': function(d) { return d.Phones },
+// 			'height': '10',
+// 			'fill':'#FFF',
+// 			'opacity': '.8'
+// 		})
+// 		.append('text')
+// 		.text( function(d) { return d.School }) 
+// 		;
+  
+// });
+
+
+
