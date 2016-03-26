@@ -35,8 +35,8 @@ d3.select(window)
 // projection and path for map drawing
 var projection = d3.geo.mercator()
 				.translate([x/2, y/2])
-				.scale(11000)
-				.center([5.478594,52.04337])
+				.scale(14000)
+				.center([5.478594,52.34337])
 			;
                        
 var path = d3.geo.path().projection(projection)
@@ -112,7 +112,7 @@ d3.json('d/NL.json', function(err, nl) {
 					var newWidth = 0;
 					var newAlpha = 0;
 					active = active? false : true ;
-		  			newWidth = active? '20%' : '20px';
+		  			newWidth = active? '30%' : '20px';
 		  			newAlpha = active? '.8' : '0';
 					d3.select("#sideBar").transition().style({
 						'width': newWidth,
@@ -135,7 +135,7 @@ d3.json('d/NL.json', function(err, nl) {
 					return "translate(" + pos + ")";
 				},
 			})
-			.attr( 'dx', function(d) {return (d.Places == 'Oost-Nieuw-west')? '-1em':'0'} )
+			.attr( 'dy', function(d) {return (d.Places == 'Oost-Nieuw-west')? '1em':'0'} )
 			;
 
 	});

@@ -221,6 +221,17 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/img\/_archive\/locMap.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 314438,
+		"inputAbbreviatedPath": "\/img\/_archive\/locMap.png",
+		"outputAbbreviatedPath": "\/img\/_archive\/locMap.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
 	"\/img\/locBars.png": {
 		"fileType": 32768,
 		"ignore": 0,
@@ -236,7 +247,7 @@
 		"fileType": 32768,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"initialSize": 314438,
+		"initialSize": 284247,
 		"inputAbbreviatedPath": "\/img\/locMap.png",
 		"outputAbbreviatedPath": "\/img\/locMap.png",
 		"outputPathIsOutsideProject": 0,
