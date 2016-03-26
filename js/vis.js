@@ -76,10 +76,10 @@ d3.json('d/NL.json', function(err, nl) {
 				'class' : function(d) { return 'performanceBar ' + d.Places + 'Bar'},
 				'x'		: '-11px',
 				'y'		: function (d) {return -10- d.Phones/10},
-				'width'	:'12px',
+				'width'	:'14px',
 				'height': function(d){return d.Phones/10},
-				'rx' 	: '6px',
-				'ry' 	: '6px',
+				'rx' 	: '7px',
+				'ry' 	: '7px',
 				"transform": function(d) { return "translate(" + projection([d.lng,d.lat]) + ")";},
 
 			})
@@ -89,7 +89,7 @@ d3.json('d/NL.json', function(err, nl) {
 		            });
 		            tooltip.classed('hidden', false)
 		                .attr('style', 'left:' + (mouse[0] + 15) +'px; top:' + (mouse[1] - 35) + 'px')
-		                .html('<h4>@'+ d.Places + '</h4> <br> This city has <span style="font-weight: bold">  ' + d.Phones + '</span> phones recycled.' + d.CO2ByGram + ' grams of carbon emmission is reduced by people in the city.');
+		                .html('<h4 id= "tooltipHead">@'+ d.Places + '</h4> <br> This city has <span style="font-weight: bold">  ' + d.Phones + '</span> phones recycled. ' + d.CO2ByGram/1000 + 'kg of carbon emmission is reduced by people in the city.');
 		     })
 		    .on('mouseout', function() {
 		            tooltip.classed('hidden', true);
@@ -103,7 +103,7 @@ d3.json('d/NL.json', function(err, nl) {
 				"transform": function(d) { 
 					var pos = projection([d.lng,d.lat]);
 					pos[1] += -17;
-					pos[0] += -5;
+					pos[0] += -4;
 					return "translate(" + pos + ")";},
 			})
 		
@@ -112,7 +112,7 @@ d3.json('d/NL.json', function(err, nl) {
 					var newWidth = 0;
 					var newAlpha = 0;
 					active = active? false : true ;
-		  			newWidth = active? '30%' : '20px';
+		  			newWidth = active? '25%' : '20px';
 		  			newAlpha = active? '.8' : '0';
 					d3.select("#sideBar").transition().style({
 						'width': newWidth,
@@ -130,8 +130,8 @@ d3.json('d/NL.json', function(err, nl) {
 				"transform": function(d) { 
 					var pos = projection([d.lng,d.lat])
 					console.log(d.Places.length);
-					pos[0] += - Math.round(d.Places.length * 2.8);
-					pos[1] += 3;
+					pos[0] += - Math.round(d.Places.length*2);
+					pos[1] += 8;
 					return "translate(" + pos + ")";
 				},
 			})

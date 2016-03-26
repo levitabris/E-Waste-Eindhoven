@@ -12,6 +12,7 @@ h1 {
 	margin: 0;
 	position: relative;
 	top: -3px;
+	font-size: 42px;
 }
 
 h3 {
@@ -23,7 +24,7 @@ h3 {
 }
 
 .tooltip h4 {
-	font-size: 14px;
+	font-size: 20px;
 	padding-bottom: 0;
 }
 div#title {
@@ -49,8 +50,8 @@ div#title {
 
 div.tooltip {
 	color: #fff;
-	font-size: 13px;
-	font-family: 'exo_2medium_condensed';
+	font-size: 18px;
+	font-family: 'exo_2light_condensed';
 	background-color: rgba(0,0,0,.8);
 	padding: 1em;
 	border-left-style: solid;
@@ -67,6 +68,7 @@ div.tooltip {
 
 #barTitle {
 	font-family: exo_2medium_condensed;
+	font-size: 20px;
 	color: #fff;
 	padding-top: 1em;
 }
@@ -121,7 +123,8 @@ div.tooltip {
 
 .stop-label {
 	fill: #ffffff;
-	font-size: 11px;
+	font-family: exo_2light_condensed;
+	font-size: 16px;
 	max-width: 8em;
 
 }
@@ -130,9 +133,9 @@ text.Oost-Nieuw-west {
 }
 
 .performanceBar {
-	fill: rgba(39,88,191, .5);
+	fill: rgba(39,88,191, .6);
 	stroke: #2758bf;
-	stroke-width: 0.6px;
+	stroke-width: 1px;
 
 }
 
