@@ -18,7 +18,7 @@ var svg = d3.select("body").style('margin','0')
         	"width": x,
             "height": y
         })
-        .style('background','#b1d8b7')
+        .style('background','#12151f')
         ;
 
 // detect resize window and change size accordingly
@@ -46,7 +46,8 @@ var tooltip =d3.select('body').append('div')
 				.attr('class','hidden tooltip')
 				;
 
-// draw world map
+// ==================draw world map==================
+
 d3.json('d/NL.json', function(err, nl) {
 	if (err) return console.error(err);
 	var netherland = topojson.feature(nl, nl.objects._nl);
@@ -56,75 +57,29 @@ d3.json('d/NL.json', function(err, nl) {
 		.append('path')
 		.attr({
 			'class': function(d) { return "netherland " + d.properties.name},
-			'd': path,
-			'fill':'#608157'
+			'd': path
 		})			
 		;
-	svg.selectAll('.city').data(nl_cities.features).enter()
-		.append('circle')
-		.attr({
-			'class': function(d) { return "city " + d.properties.name},
-			'r': '2px',
-			'fill':'#cfcfcf',
-			"transform": function(d) { return "translate(" + path.centroid(d) + ")"; }
-		})
 
-	svg.selectAll('.city-label').data(nl_cities.features).enter()
-		.append('text')
-		.text( function(d) {return d.properties.name})
-		.attr({
-			'class': function(d) {return 'city-label ' + d.properties.name},
-			"transform": function(d) { return "translate(" + projection(d.geometry.coordinates) + ")";},
-    		"dy":"1.1em"			
-		})
-    	;
-
+	// ================= dots for city position ================
 	var active = false;
 
     d3.csv('d/phonesCity.csv', function(err,d) {
 		if (err) return console.error(err);
-		console.log(d);
-		svg.selectAll('.stop').data(d).enter()
-			.append('circle')
-			.attr({
-				'class': function(d) {return 'stop ' + d.Places},
-				'r': function(d) { return (d.Places == 'Eindhoven')? '6px':'5px'},
-				'fill':function(d) { return (d.Places == 'Eindhoven')? '#2ed0de':'#FFF'},
-				"transform": function(d) { return "translate(" + projection([d.lng,d.lat]) + ")";}
-			})
-			.on("click", function(d){
-				if (d.Places == 'Eindhoven') {
-					var newWidth = 0;
-					active = active? false : true ;
-		  			newWidth = active? '20%' : '0%';
-					d3.select("#sideBar").style('width',newWidth);
-				}
-			})
-			.transition()
-			.duration(1200)
-			;
 
-		svg.selectAll('.stop-label').data(d).enter()
-			.append('text')
-			.text( function(d) {return d.Places})
-			.attr({
-				'class': function(d) {return 'stop-label ' + d.Places},
-				"transform": function(d) { return "translate(" + projection([d.lng,d.lat]) + ")";},
-	    		"dy":"1.4em"
-			})
-			.attr( 'dx', function(d) {return (d.Places == 'Oost-Nieuw-west')? '-1em':'0'} )
-			;
+
+		// ========= bars indication each city's performance============
 
 		svg.selectAll('.performanceBar').data(d).enter()
 			.append('rect')
 			.attr({ 
-				'class':'performanceBar',
-				'width':'20px',
-				'y': function (d) {return -10- d.Phones/10},
-				'height' : function(d){return d.Phones/10},
-				'x': '-11px',
-				'fill': 'white',
-				'opacity': '.7',
+				'class' : function(d) { return 'performanceBar ' + d.Places + 'Bar'},
+				'x'		: '-11px',
+				'y'		: function (d) {return -10- d.Phones/10},
+				'width'	:'12px',
+				'height': function(d){return d.Phones/10},
+				'rx' 	: '6px',
+				'ry' 	: '6px',
 				"transform": function(d) { return "translate(" + projection([d.lng,d.lat]) + ")";},
 
 			})
@@ -138,32 +93,55 @@ d3.json('d/NL.json', function(err, nl) {
 		     })
 		    .on('mouseout', function() {
 		            tooltip.classed('hidden', true);
-		     })
+		     });
+
+
+		svg.selectAll('.stop').data(d).enter()
+			.append('circle')
+			.attr({
+				'class': function(d) {return 'stop ' + d.Places},
+				"transform": function(d) { 
+					var pos = projection([d.lng,d.lat]);
+					pos[1] += -17;
+					pos[0] += -5;
+					return "translate(" + pos + ")";},
+			})
+		
+			;
+		d3.select('.EindhovenBar')	.on("click", function(){
+					var newWidth = 0;
+					var newAlpha = 0;
+					active = active? false : true ;
+		  			newWidth = active? '20%' : '20px';
+		  			newAlpha = active? '.8' : '0';
+					d3.select("#sideBar").transition().style({
+						'width': newWidth,
+						'opacity': newAlpha
+					})
+			})
+
+	//==================== Add city name labels ======================
+
+		svg.selectAll('.stop-label').data(d).enter()
+			.append('text')
+			.text( function(d) {return d.Places})
+			.attr({
+				'class': function(d) {return 'stop-label ' + d.Places},
+				"transform": function(d) { 
+					var pos = projection([d.lng,d.lat])
+					console.log(d.Places.length);
+					pos[0] += - Math.round(d.Places.length * 2.8);
+					pos[1] += 3;
+					return "translate(" + pos + ")";
+				},
+			})
+			.attr( 'dx', function(d) {return (d.Places == 'Oost-Nieuw-west')? '-1em':'0'} )
+			;
 
 	});
 
 });
 
-
-
-// d3.csv('d/cityLocs.csv', function(d){
-// 	console.log(d);
-// 	d3.select('#locations').append('svg').append('g').attr('class','locBars' ).selectAll('.locPerformance').data(d).enter()
-// 		.append('rect')
-// 		.attr({
-// 			'class':'locPerformance',
-// 			'x': '0',
-// 			'y':  function(d,i) { return i*12 },
-// 			'width': function(d) { return d.Phones },
-// 			'height': '10',
-// 			'fill':'#FFF',
-// 			'opacity': '.8'
-// 		})
-// 		.append('text')
-// 		.text( function(d) { return d.School }) 
-// 		;
-  
-// });
 
 
 

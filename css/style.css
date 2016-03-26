@@ -1,17 +1,32 @@
+h1,h2,h3,h4,h5 {
+	font-family: 'exo_2light_condensed';
+}
+
+text {
+	font-family: 'exo_2medium_condensed';
+}
+
 .hidden {
 	display: none;
 }
 
+.netherland {
+	fill:none;
+	stroke:#316ec7;
+}
+
 div.tooltip {
 	color: #fff;
-	font-family: PT-sans, sans-serif;
-	font-size: 16px;
-	background-color: #30571b;
+	font-size: 13px;
+	font-family: 'exo_2medium_condensed';
+	background-color: rgba(0,0,0,.8);
 	padding: 1em;
-	border-radius: 4px;
-	opacity: 0.9;
+	border-left-style: solid;
+	border-width: 20px;
+	border-color:#52dffc;
+	opacity: 0.8;
 	position: absolute;
-	max-width: 230px;
+	max-width: 200px;
 }
 #locMap {
 	height: 20%;
@@ -20,14 +35,14 @@ div.tooltip {
 	width: 80%;
 }
 #sideBar {
-	background-color: rgba(120, 165, 131, .8);
+	background-color: rgba(49,110,199, .3);
 	height: 100%;
 	width: 1%;
 	padding: 3em;
-	font-family: sans-serif;
 	position: absolute;
 	right: 0px;
 	top: 0px;
+	opacity: 0;
 }
 
 .country {
@@ -42,8 +57,28 @@ div.tooltip {
 	text-anchor: end;
 }
 
-.stop .Eindhoven {
-	stroke: 20px;
+.stop {
+	fill: #12141f;
+	stroke: #51dafc;
+	stroke-width: 2px;
+	r:4px;
+
+}
+
+.Eindhoven {
+	fill: #12141f;
+	stroke: white;
+	stroke-width: 0px;
+	r: 4px;
+	
+}
+
+
+.stop-label {
+	fill: #ffffff;
+	font-size: 11px;
+	max-width: 8em;
+
 }
 
 .Oost-Nieuw-west {
@@ -52,18 +87,24 @@ div.tooltip {
 	text-anchor: end;
 }
 
-.stop-label {
-	fill: #ffffff;
-	font-family: sans-serif;
-	font-size: 13px;
-	max-width: 8em;
+.performanceBar {
+	fill: rgba(39,88,191, .5);
+	stroke: #2758bf;
+	stroke-width: 0.6px;
 
 }
 
+.EindhovenBar {
+
+	fill:rgba(82,223,252, .8);
+	stroke: white;
+	/*stroke: rgb(39,88,191);*/
+	stroke-width: 0px;
+
+}
 
 .city-label {
 	fill: #ffffff;
-	font-family: sans-serif;
 	display: none;
 }
 
@@ -82,7 +123,7 @@ h1 {
 	left:20px;
 	top: 1em;
 	color: #ffffff;
-	font-family: sans-serif;
+
 	max-width: 160px;
 }
 h2{
@@ -93,7 +134,7 @@ h3 {
 	left:20px;
 	top: 7em;
 	color: #ffffff;
-	font-family: sans-serif;
+
 	max-width: 200px;
 }
 
@@ -103,3 +144,8 @@ h4 {
 	margin-left: -0.3em;
 	padding: 0;
 }
+
+body {
+	background: #12151f;
+}
+
