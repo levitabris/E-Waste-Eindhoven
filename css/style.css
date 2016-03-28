@@ -46,6 +46,7 @@ div#title {
 .netherland {
 	fill:none;
 	stroke:#316ec7;
+	stroke-width:3px;
 }
 
 div.tooltip {
