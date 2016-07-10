@@ -64,7 +64,7 @@ d3.json('d/NL.json', function(err, nl) {
 	// ================= dots for city position ================
 	var active = false;
 
-    d3.csv('./d/phonesCity.csv', function(err,d) {
+    d3.csv('d/phonesCity.csv', function(err,d) {
 		if (err) return console.error(err);
 
 
